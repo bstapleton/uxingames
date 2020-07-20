@@ -1,32 +1,31 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import { useParams } from 'react-router-dom';
 
-const CategoryForm = (() => {
-    const [category, setCategory] = useState({
-        title: '',
-        slug: '',
-        description: ''
+const TagForm = (() => {
+    const [tag, setTag] = useState({
+        name: '',
+        slug: ''
     });
     const [message, setMessage] = useState(null);
     const [pageTitle, setPageTitle] = useState(null);
     const { action, slug } = useParams();
 
-    let noCategoryMessage = "That category doesn't exist!";
+    let noTagMessage = "That tag doesn't exist!";
 
     useEffect(() => {
         switch (action) {
             case 'edit':
                 setPageTitle('Edit');
                 if (slug === undefined) {
-                    setMessage(noCategoryMessage);
+                    setMessage(noTagMessage);
                 } else {
-                    axios.get(`/category/${slug}`)
+                    axios.get(`/tag/${slug}`)
                         .then(response => {
-                            setCategory(response.data.data);
+                            setTag(response.data.data);
                         })
                         .catch((error) => {
                             console.error(error);
-                            setMessage(noCategoryMessage);
+                            setMessage(noTagMessage);
                             // TODO: probably want to handle the status code messages from the API rather than the front-end
                         });
                 }
@@ -43,7 +42,7 @@ const CategoryForm = (() => {
 
     const save = (event) => {
         event.preventDefault();
-        axios.post(`/category`, category)
+        axios.post(`/tag`, tag)
             .then(response => {
                 if (response.status !== 200) {
                     // TODO: some kind of redirection, or stay on this page?
@@ -53,8 +52,8 @@ const CategoryForm = (() => {
     };
 
     const handleChange = (event) => {
-        category[event.target.name] = event.target.value;
-        setCategory(category);
+        tag[event.target.name] = event.target.value;
+        setTag(tag);
     }
 
     return (
@@ -63,11 +62,10 @@ const CategoryForm = (() => {
                 <p>{message}</p>
             :
                 <Fragment>
-                    <h1>{pageTitle} a category</h1>
+                    <h1>{pageTitle} a tag</h1>
                     <form method={'post'} onSubmit={save}>
-                        <input type={'text'} name={'title'} id={'title'} onChange={handleChange} defaultValue={category.title} required />
-                        <input type={'text'} name={'slug'} id={'slug'} onChange={handleChange} defaultValue={category.slug} required />
-                        <textarea name={'description'} id={'description'} onChange={handleChange} defaultValue={category.description} required />
+                        <input type={'text'} name={'name'} id={'name'} onChange={handleChange} defaultValue={tag.name} required />
+                        <input type={'text'} name={'slug'} id={'slug'} onChange={handleChange} defaultValue={tag.slug} required />
                         <button type={'submit'}>Save</button>
                     </form>
                 </Fragment>
@@ -76,4 +74,4 @@ const CategoryForm = (() => {
     );
 });
 
-export default CategoryForm;
+export default TagForm;

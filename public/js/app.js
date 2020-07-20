@@ -91091,7 +91091,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_categories_Form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../pages/categories/Form */ "./resources/js/pages/categories/Form.js");
 /* harmony import */ var _pages_tags_List__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../pages/tags/List */ "./resources/js/pages/tags/List.js");
 /* harmony import */ var _pages_tags_View__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../pages/tags/View */ "./resources/js/pages/tags/View.js");
-/* harmony import */ var _pages_posts_View__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../pages/posts/View */ "./resources/js/pages/posts/View.js");
+/* harmony import */ var _pages_tags_Form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../pages/tags/Form */ "./resources/js/pages/tags/Form.js");
+/* harmony import */ var _pages_posts_View__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../pages/posts/View */ "./resources/js/pages/posts/View.js");
+
 
 
 
@@ -91121,7 +91123,7 @@ var App = function App() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: '/categories/:slug/posts/:postSlug',
-    component: _pages_posts_View__WEBPACK_IMPORTED_MODULE_10__["default"]
+    component: _pages_posts_View__WEBPACK_IMPORTED_MODULE_11__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: '/tags',
@@ -91132,6 +91134,9 @@ var App = function App() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: '/admin/category/:action/:slug?',
     component: _pages_categories_Form__WEBPACK_IMPORTED_MODULE_7__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    path: '/admin/tag/:action/:slug?',
+    component: _pages_tags_Form__WEBPACK_IMPORTED_MODULE_10__["default"]
   }))));
 };
 
@@ -91256,7 +91261,7 @@ var CategoryForm = function CategoryForm() {
     setCategory(category);
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, message) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, pageTitle, " a post"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, message) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, pageTitle, " a category"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     method: 'post',
     onSubmit: save
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -91475,6 +91480,127 @@ var PostView = function PostView() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (PostView);
+
+/***/ }),
+
+/***/ "./resources/js/pages/tags/Form.js":
+/*!*****************************************!*\
+  !*** ./resources/js/pages/tags/Form.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+var TagForm = function TagForm() {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    name: '',
+    slug: ''
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      tag = _useState2[0],
+      setTag = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      message = _useState4[0],
+      setMessage = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      pageTitle = _useState6[0],
+      setPageTitle = _useState6[1];
+
+  var _useParams = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
+      action = _useParams.action,
+      slug = _useParams.slug;
+
+  var noTagMessage = "That tag doesn't exist!";
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    switch (action) {
+      case 'edit':
+        setPageTitle('Edit');
+
+        if (slug === undefined) {
+          setMessage(noTagMessage);
+        } else {
+          axios.get("/tag/".concat(slug)).then(function (response) {
+            setTag(response.data.data);
+          })["catch"](function (error) {
+            console.error(error);
+            setMessage(noTagMessage); // TODO: probably want to handle the status code messages from the API rather than the front-end
+          });
+        }
+
+        break;
+
+      case 'create':
+        setPageTitle('Create');
+        break;
+
+      default:
+        setMessage('Invalid URL');
+        break;
+    } // TODO: a redirect if not authed
+
+  }, []);
+
+  var save = function save(event) {
+    event.preventDefault();
+    axios.post("/tag", tag).then(function (response) {
+      if (response.status !== 200) {// TODO: some kind of redirection, or stay on this page?
+      }
+    })["catch"](function (error) {
+      return console.error(error);
+    });
+  };
+
+  var handleChange = function handleChange(event) {
+    tag[event.target.name] = event.target.value;
+    setTag(tag);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, message) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, pageTitle, " a tag"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    method: 'post',
+    onSubmit: save
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: 'text',
+    name: 'name',
+    id: 'name',
+    onChange: handleChange,
+    defaultValue: tag.name,
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: 'text',
+    name: 'slug',
+    id: 'slug',
+    onChange: handleChange,
+    defaultValue: tag.slug,
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: 'submit'
+  }, "Save"))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (TagForm);
 
 /***/ }),
 
