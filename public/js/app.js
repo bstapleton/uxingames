@@ -91165,6 +91165,70 @@ var Main = function Main() {
 
 /***/ }),
 
+/***/ "./resources/js/components/Notification.js":
+/*!*************************************************!*\
+  !*** ./resources/js/components/Notification.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Notification = function Notification(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "notification notification--".concat(props.type)
+  }, props.message);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Notification);
+
+/***/ }),
+
+/***/ "./resources/js/components/fields/TextInput.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/fields/TextInput.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var TextInput = function TextInput(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: props.required ? 'field field--required' : 'field'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: 'field__label',
+    htmlFor: props.name
+  }, props.label, props.required ? ' *' : null), props.required ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    className: 'field__input',
+    name: props.name,
+    id: props.name,
+    onChange: props.onChangeEvent,
+    defaultValue: props.defaultValue,
+    required: true
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    className: 'field__input',
+    name: props.name,
+    id: props.name,
+    onChange: props.onChangeEvent,
+    defaultValue: props.defaultValue
+  }), props.help ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'field__help'
+  }, props.help) : null);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (TextInput);
+
+/***/ }),
+
 /***/ "./resources/js/pages/categories/Form.js":
 /*!***********************************************!*\
   !*** ./resources/js/pages/categories/Form.js ***!
@@ -91177,6 +91241,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _components_fields_TextInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/fields/TextInput */ "./resources/js/components/fields/TextInput.js");
+/* harmony import */ var _components_Notification__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/Notification */ "./resources/js/components/Notification.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -91192,8 +91258,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var CategoryForm = function CategoryForm() {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    id: '',
     title: '',
     slug: '',
     description: ''
@@ -91204,18 +91273,29 @@ var CategoryForm = function CategoryForm() {
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      message = _useState4[0],
-      setMessage = _useState4[1];
+      originalSlug = _useState4[0],
+      setOriginalSlug = _useState4[1];
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState6 = _slicedToArray(_useState5, 2),
-      pageTitle = _useState6[0],
-      setPageTitle = _useState6[1];
+      errorMessage = _useState6[0],
+      setErrorMessage = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState8 = _slicedToArray(_useState7, 2),
+      infoMessage = _useState8[0],
+      setInfoMessage = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState10 = _slicedToArray(_useState9, 2),
+      pageTitle = _useState10[0],
+      setPageTitle = _useState10[1];
 
   var _useParams = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
       action = _useParams.action,
       slug = _useParams.slug;
 
+  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   var noCategoryMessage = "That category doesn't exist!";
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     switch (action) {
@@ -91223,13 +91303,14 @@ var CategoryForm = function CategoryForm() {
         setPageTitle('Edit');
 
         if (slug === undefined) {
-          setMessage(noCategoryMessage);
+          setErrorMessage(noCategoryMessage);
         } else {
           axios.get("/category/".concat(slug)).then(function (response) {
             setCategory(response.data.data);
+            setOriginalSlug(response.data.data.slug);
           })["catch"](function (error) {
             console.error(error);
-            setMessage(noCategoryMessage); // TODO: probably want to handle the status code messages from the API rather than the front-end
+            setErrorMessage(noCategoryMessage); // TODO: probably want to handle the status code messages from the API rather than the front-end
           });
         }
 
@@ -91240,7 +91321,7 @@ var CategoryForm = function CategoryForm() {
         break;
 
       default:
-        setMessage('Invalid URL');
+        setErrorMessage('Invalid URL');
         break;
     } // TODO: a redirect if not authed
 
@@ -91248,12 +91329,23 @@ var CategoryForm = function CategoryForm() {
 
   var save = function save(event) {
     event.preventDefault();
-    axios.post("/category", category).then(function (response) {
-      if (response.status !== 200) {// TODO: some kind of redirection, or stay on this page?
-      }
-    })["catch"](function (error) {
-      return console.error(error);
-    });
+
+    if (action === 'create') {
+      axios.post("/category", category).then(function (response) {
+        if (response.status !== 200) {// TODO: some kind of redirection
+        }
+      })["catch"](function (error) {
+        console.error(error);
+        setErrorMessage('Creation of the category failed.');
+      });
+    } else if (action === 'edit') {
+      axios.put("/category/".concat(originalSlug), category).then(function (response) {
+        setInfoMessage("The category (".concat(response.data.title, ") was edited successfully."));
+        history.push("/admin/category/edit/".concat(response.data.slug));
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    }
   };
 
   var handleChange = function handleChange(event) {
@@ -91261,23 +91353,29 @@ var CategoryForm = function CategoryForm() {
     setCategory(category);
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, message) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, pageTitle, " a category"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    method: 'post',
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, errorMessage ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Notification__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    type: 'failure',
+    message: errorMessage
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, pageTitle, " a category: ", category.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    method: action === 'create' ? 'post' : 'put',
     onSubmit: save
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: 'text',
+  }, infoMessage ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Notification__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    type: 'success',
+    message: infoMessage
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_fields_TextInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: 'title',
-    id: 'title',
-    onChange: handleChange,
-    defaultValue: category.title,
-    required: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: 'text',
+    label: 'Category name',
+    required: true,
+    help: 'The title of the category',
+    onChangeEvent: handleChange,
+    defaultValue: category.title
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_fields_TextInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: 'slug',
-    id: 'slug',
-    onChange: handleChange,
-    defaultValue: category.slug,
-    required: true
+    label: 'URL slug',
+    required: true,
+    help: 'Slug to access the category',
+    onChangeEvent: handleChange,
+    defaultValue: category.slug
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
     name: 'description',
     id: 'description',
@@ -91285,6 +91383,7 @@ var CategoryForm = function CategoryForm() {
     defaultValue: category.description,
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: 'button button--success',
     type: 'submit'
   }, "Save"))));
 };
@@ -91495,6 +91594,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _components_fields_TextInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/fields/TextInput */ "./resources/js/components/fields/TextInput.js");
+/* harmony import */ var _components_Notification__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/Notification */ "./resources/js/components/Notification.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -91510,8 +91611,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var TagForm = function TagForm() {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    id: '',
     name: '',
     slug: ''
   }),
@@ -91521,18 +91625,29 @@ var TagForm = function TagForm() {
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      message = _useState4[0],
-      setMessage = _useState4[1];
+      originalSlug = _useState4[0],
+      setOriginalSlug = _useState4[1];
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState6 = _slicedToArray(_useState5, 2),
-      pageTitle = _useState6[0],
-      setPageTitle = _useState6[1];
+      errorMessage = _useState6[0],
+      setErrorMessage = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState8 = _slicedToArray(_useState7, 2),
+      infoMessage = _useState8[0],
+      setInfoMessage = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState10 = _slicedToArray(_useState9, 2),
+      pageTitle = _useState10[0],
+      setPageTitle = _useState10[1];
 
   var _useParams = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
       action = _useParams.action,
       slug = _useParams.slug;
 
+  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   var noTagMessage = "That tag doesn't exist!";
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     switch (action) {
@@ -91540,13 +91655,14 @@ var TagForm = function TagForm() {
         setPageTitle('Edit');
 
         if (slug === undefined) {
-          setMessage(noTagMessage);
+          setErrorMessage(noTagMessage);
         } else {
           axios.get("/tag/".concat(slug)).then(function (response) {
             setTag(response.data.data);
+            setOriginalSlug(response.data.data.slug);
           })["catch"](function (error) {
             console.error(error);
-            setMessage(noTagMessage); // TODO: probably want to handle the status code messages from the API rather than the front-end
+            setErrorMessage(noTagMessage); // TODO: probably want to handle the status code messages from the API rather than the front-end
           });
         }
 
@@ -91557,7 +91673,7 @@ var TagForm = function TagForm() {
         break;
 
       default:
-        setMessage('Invalid URL');
+        setErrorMessage('Invalid URL');
         break;
     } // TODO: a redirect if not authed
 
@@ -91565,12 +91681,23 @@ var TagForm = function TagForm() {
 
   var save = function save(event) {
     event.preventDefault();
-    axios.post("/tag", tag).then(function (response) {
-      if (response.status !== 200) {// TODO: some kind of redirection, or stay on this page?
-      }
-    })["catch"](function (error) {
-      return console.error(error);
-    });
+
+    if (action === 'create') {
+      axios.post("/tag", tag).then(function (response) {
+        if (response.status !== 200) {// TODO: some kind of redirection
+        }
+      })["catch"](function (error) {
+        console.error(error);
+        setErrorMessage('Creation of the tag failed.');
+      });
+    } else if (action === 'edit') {
+      axios.put("/tag/".concat(originalSlug), tag).then(function (response) {
+        setInfoMessage("The tag (".concat(response.data.name, ") was edited successfully."));
+        history.push("/admin/category/edit/".concat(response.data.slug));
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    }
   };
 
   var handleChange = function handleChange(event) {
@@ -91578,24 +91705,31 @@ var TagForm = function TagForm() {
     setTag(tag);
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, message) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, pageTitle, " a tag"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    method: 'post',
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, errorMessage ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Notification__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    type: 'failure',
+    message: errorMessage
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, pageTitle, " tag: ", tag.name), infoMessage ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Notification__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    type: 'success',
+    message: infoMessage
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    method: action === 'create' ? 'post' : 'put',
     onSubmit: save
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: 'text',
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_fields_TextInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: 'name',
-    id: 'name',
-    onChange: handleChange,
-    defaultValue: tag.name,
-    required: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: 'text',
+    label: 'Tag name',
+    required: true,
+    help: 'The name of the tag',
+    onChangeEvent: handleChange,
+    defaultValue: tag.name
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_fields_TextInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: 'slug',
-    id: 'slug',
-    onChange: handleChange,
-    defaultValue: tag.slug,
-    required: true
+    label: 'URL slug',
+    required: true,
+    help: 'Slug to access the tag',
+    onChangeEvent: handleChange,
+    defaultValue: tag.slug
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: 'button button--success',
     type: 'submit'
   }, "Save"))));
 };

@@ -33,11 +33,13 @@ class CategoryController extends BaseController
     public function show($slug)
     {
         return new CategoryResource(Category::where('slug', $slug)->first());
+        // TODO: handle if there's no result
     }
 
     public function showById($id)
     {
         return Category::where('id', $id)->first();
+        // TODO: handle if there's no result
     }
 
     public function store(Request $request)
@@ -51,5 +53,13 @@ class CategoryController extends BaseController
         $category = Category::create($validator);
 
         return response()->json($category, 201);
+    }
+
+    public function update(Request $request)
+    {
+        $category = Category::where('id', $request->input('id'))->first();
+        $category->update($request->all());
+
+        return response()->json($category, 200);
     }
 }
