@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Category;
 use App\Http\Resources\CategoryWithPosts as CategoryResource;
 use App\Http\Resources\CategoryCollection;
+use Illuminate\Http\Request;
 
 /**
  * Class CategoryController
@@ -37,5 +38,18 @@ class CategoryController extends BaseController
     public function showById($id)
     {
         return Category::where('id', $id)->first();
+    }
+
+    public function store(Request $request)
+    {
+        $validator = $request->validate([
+            'title' => 'required',
+            'slug' => 'required',
+            'description' => 'required',
+        ]);
+
+        $category = Category::create($validator);
+
+        return response()->json($category, 201);
     }
 }

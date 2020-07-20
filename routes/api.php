@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('category')->group(function() {
     Route::get('/', 'API\CategoryController@index');
     Route::get('/{categorySlug}', 'API\CategoryController@show');
+    Route::post('/', 'API\CategoryController@store');
 });
 
 Route::prefix('post')->group(function() {
