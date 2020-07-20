@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import {Link, useParams} from 'react-router-dom';
 
-const Category = (() => {
+const CategoryView = (() => {
     const [category, setCategory] = useState({});
     const [posts, setPosts] = useState([]);
     const { slug } = useParams();
@@ -28,4 +28,4 @@ const Category = (() => {
     );
 });
 
-export default Category;
+export default CategoryView;

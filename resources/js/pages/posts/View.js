@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import Moment from 'react-moment';
 import { useParams, Link } from 'react-router-dom';
 
-const Post = (() => {
+const PostView = (() => {
     const [post, setPost] = useState([]);
     const [category, setCategory] = useState({});
     const [tags, setTags] = useState([]);
@@ -41,4 +41,4 @@ const Post = (() => {
     );
 });
 
-export default Post;
+export default PostView;

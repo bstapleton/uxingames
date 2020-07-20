@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-const Tag = (() => {
+const TagView = (() => {
     const [tag, setTag] = useState({});
     const [posts, setPosts] = useState([]);
     const { slug } = useParams();
@@ -29,4 +29,4 @@ const Tag = (() => {
     );
 });
 
-export default Tag;
+export default TagView;

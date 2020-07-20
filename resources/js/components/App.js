@@ -1,23 +1,14 @@
 import React, {Fragment} from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import axios from 'axios';
 import Main from './Main';
-import Categories from '../pages/Categories';
-import Category from '../pages/Category';
-import Tags from '../pages/Tags';
-import Tag from '../pages/Tag';
-import Post from "../pages/Post";
-// import Header from './layout/Header'
-// import Login from '../pages/Login';
-// import Register from '../pages/Register';
-// import ViewSection from "../pages/section/ViewSection";
-// import CreateSection from '../pages/section/CreateSection';
-// import ViewTopic from "../pages/topic/ViewTopic";
-// import CreateTopic from "../pages/topic/CreateTopic";
-// import CreatePost from "../pages/post/CreatePost";
-// import WebFont from 'webfontloader';
-// import { getCurrentUser } from '../utils';
+import CategoryList from '../pages/categories/List';
+import CategoryView from '../pages/categories/View';
+import CategoryForm from '../pages/categories/Form';
+import TagList from '../pages/tags/List';
+import TagView from '../pages/tags/View';
+import PostView from "../pages/posts/View";
 
 axios.defaults.baseURL = 'http://localhost:8000/api';
 
@@ -27,11 +18,13 @@ const App = (() => {
             <Fragment>
                 <Switch>
                     <Route exact path={'/'} component={Main} />
-                    <Route exact path={'/categories'} component={Categories} />
-                    <Route exact path={'/categories/:slug'} component={Category} />
-                    <Route exact path={'/categories/:slug/posts/:postSlug'} component={Post} />
-                    <Route exact path={'/tags'} component={Tags} />
-                    <Route path={'/tags/:slug'} component={Tag} />
+                    <Route exact path={'/categories'} component={CategoryList} />
+                    <Route exact path={'/categories/:slug'} component={CategoryView} />
+                    <Route exact path={'/categories/:slug/posts/:postSlug'} component={PostView} />
+                    <Route exact path={'/tags'} component={TagList} />
+                    <Route path={'/tags/:slug'} component={TagView} />
+
+                    <Route exact path={'/admin/create-category'} component={CategoryForm} />
                 </Switch>
             </Fragment>
         </BrowserRouter>

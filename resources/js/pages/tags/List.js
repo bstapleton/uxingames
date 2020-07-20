@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-const Tags = (() => {
+const TagList = (() => {
     const [tags, setTags] = useState([]);
 
     useEffect(() => {
@@ -26,4 +26,4 @@ const Tags = (() => {
     );
 });
 
-export default Tags;
+export default TagList;

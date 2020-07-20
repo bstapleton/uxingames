@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom'
 
-const Categories = (() => {
+const CategoryList = (() => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -26,4 +26,4 @@ const Categories = (() => {
     );
 });
 
-export default Categories;
+export default CategoryList;
