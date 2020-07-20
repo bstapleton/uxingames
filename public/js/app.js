@@ -91130,8 +91130,7 @@ var App = function App() {
     path: '/tags/:slug',
     component: _pages_tags_View__WEBPACK_IMPORTED_MODULE_9__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-    exact: true,
-    path: '/admin/create-category',
+    path: '/admin/category/:action/:slug?',
     component: _pages_categories_Form__WEBPACK_IMPORTED_MODULE_7__["default"]
   }))));
 };
@@ -91172,6 +91171,7 @@ var Main = function Main() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -91186,27 +91186,65 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var CategoryForm = function CategoryForm() {
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('Create'),
-      _useState2 = _slicedToArray(_useState, 2),
-      verb = _useState2[0],
-      setVerb = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+var CategoryForm = function CategoryForm() {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     title: '',
     slug: '',
     description: ''
   }),
+      _useState2 = _slicedToArray(_useState, 2),
+      category = _useState2[0],
+      setCategory = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      category = _useState4[0],
-      setCategory = _useState4[1];
+      message = _useState4[0],
+      setMessage = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      pageTitle = _useState6[0],
+      setPageTitle = _useState6[1];
+
+  var _useParams = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
+      action = _useParams.action,
+      slug = _useParams.slug;
+
+  var noCategoryMessage = "That category doesn't exist!";
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    switch (action) {
+      case 'edit':
+        setPageTitle('Edit');
+
+        if (slug === undefined) {
+          setMessage(noCategoryMessage);
+        } else {
+          axios.get("/category/".concat(slug)).then(function (response) {
+            setCategory(response.data.data);
+          })["catch"](function (error) {
+            console.error(error);
+            setMessage(noCategoryMessage); // TODO: probably want to handle the status code messages from the API rather than the front-end
+          });
+        }
+
+        break;
+
+      case 'create':
+        setPageTitle('Create');
+        break;
+
+      default:
+        setMessage('Invalid URL');
+        break;
+    } // TODO: a redirect if not authed
+
+  }, []);
 
   var save = function save(event) {
     event.preventDefault();
-    console.log(category);
     axios.post("/category", category).then(function (response) {
-      if (response.status === 200) {
-        console.log('done');
+      if (response.status !== 200) {// TODO: some kind of redirection, or stay on this page?
       }
     })["catch"](function (error) {
       return console.error(error);
@@ -91218,7 +91256,7 @@ var CategoryForm = function CategoryForm() {
     setCategory(category);
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, verb, " a post"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, message) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, pageTitle, " a post"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     method: 'post',
     onSubmit: save
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -91226,21 +91264,24 @@ var CategoryForm = function CategoryForm() {
     name: 'title',
     id: 'title',
     onChange: handleChange,
+    defaultValue: category.title,
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: 'text',
     name: 'slug',
     id: 'slug',
     onChange: handleChange,
+    defaultValue: category.slug,
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
     name: 'description',
     id: 'description',
     onChange: handleChange,
+    defaultValue: category.description,
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: 'submit'
-  }, "Save")));
+  }, "Save"))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (CategoryForm);

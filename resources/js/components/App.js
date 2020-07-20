@@ -24,7 +24,7 @@ const App = (() => {
                     <Route exact path={'/tags'} component={TagList} />
                     <Route path={'/tags/:slug'} component={TagView} />
 
-                    <Route exact path={'/admin/create-category'} component={CategoryForm} />
+                    <Route path={'/admin/category/:action/:slug?'} component={CategoryForm} />
                 </Switch>
             </Fragment>
         </BrowserRouter>
