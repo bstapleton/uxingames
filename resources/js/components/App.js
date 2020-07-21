@@ -10,6 +10,7 @@ import TagList from '../pages/tags/List';
 import TagView from '../pages/tags/View';
 import TagForm from '../pages/tags/Form';
 import PostView from "../pages/posts/View";
+import PostForm from "../pages/posts/Form";
 
 axios.defaults.baseURL = 'http://localhost:8000/api';
 
@@ -27,6 +28,7 @@ const App = (() => {
 
                     <Route path={'/admin/category/:action/:slug?'} component={CategoryForm} />
                     <Route path={'/admin/tag/:action/:slug?'} component={TagForm} />
+                    <Route path={'/admin/post/:action/:slug?'} component={PostForm} />
                 </Switch>
             </Fragment>
         </BrowserRouter>
