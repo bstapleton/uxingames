@@ -91093,6 +91093,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_tags_View__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../pages/tags/View */ "./resources/js/pages/tags/View.js");
 /* harmony import */ var _pages_tags_Form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../pages/tags/Form */ "./resources/js/pages/tags/Form.js");
 /* harmony import */ var _pages_posts_View__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../pages/posts/View */ "./resources/js/pages/posts/View.js");
+/* harmony import */ var _pages_posts_Form__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../pages/posts/Form */ "./resources/js/pages/posts/Form.js");
+
 
 
 
@@ -91137,6 +91139,9 @@ var App = function App() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: '/admin/tag/:action/:slug?',
     component: _pages_tags_Form__WEBPACK_IMPORTED_MODULE_10__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    path: '/admin/post/:action/:slug?',
+    component: _pages_posts_Form__WEBPACK_IMPORTED_MODULE_12__["default"]
   }))));
 };
 
@@ -91502,6 +91507,256 @@ var CategoryView = function CategoryView() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (CategoryView);
+
+/***/ }),
+
+/***/ "./resources/js/pages/posts/Form.js":
+/*!******************************************!*\
+  !*** ./resources/js/pages/posts/Form.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _components_fields_TextInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/fields/TextInput */ "./resources/js/components/fields/TextInput.js");
+/* harmony import */ var _components_Notification__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/Notification */ "./resources/js/components/Notification.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+var PostForm = function PostForm() {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    id: '',
+    title: '',
+    slug: '',
+    category_id: '',
+    description: '',
+    content: '',
+    tags: []
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      post = _useState2[0],
+      setPost = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      categories = _useState4[0],
+      setCategories = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      tags = _useState6[0],
+      setTags = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      selectedTags = _useState8[0],
+      setSelectedTags = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState10 = _slicedToArray(_useState9, 2),
+      originalSlug = _useState10[0],
+      setOriginalSlug = _useState10[1];
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState12 = _slicedToArray(_useState11, 2),
+      errorMessage = _useState12[0],
+      setErrorMessage = _useState12[1];
+
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState14 = _slicedToArray(_useState13, 2),
+      infoMessage = _useState14[0],
+      setInfoMessage = _useState14[1];
+
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState16 = _slicedToArray(_useState15, 2),
+      pageTitle = _useState16[0],
+      setPageTitle = _useState16[1];
+
+  var _useParams = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
+      action = _useParams.action,
+      slug = _useParams.slug;
+
+  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
+  var noPostMessage = "That post doesn't exist!";
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    axios.get("/category").then(function (response) {
+      response.data.data.sort(function (a, b) {
+        return a.title > b.title ? 1 : -1;
+      });
+      setCategories(response.data.data);
+    })["catch"](function (error) {
+      console.error(error);
+    });
+    axios.get("/tag").then(function (response) {
+      response.data.data.sort(function (a, b) {
+        return a.name > b.name ? 1 : -1;
+      });
+      setTags(response.data.data);
+      console.log(response.data.data);
+    })["catch"](function (error) {
+      console.error(error);
+    });
+
+    switch (action) {
+      case 'edit':
+        setPageTitle('Edit');
+
+        if (slug === undefined) {
+          setErrorMessage(noPostMessage);
+        } else {
+          axios.get("/post/".concat(slug)).then(function (response) {
+            setPost(response.data.data);
+            setOriginalSlug(response.data.data.slug);
+          })["catch"](function (error) {
+            console.error(error);
+            setErrorMessage(noPostMessage); // TODO: probably want to handle the status code messages from the API rather than the front-end
+          });
+        }
+
+        break;
+
+      case 'create':
+        setPageTitle('Create');
+        break;
+
+      default:
+        setErrorMessage('Invalid URL');
+        break;
+    } // TODO: a redirect if not authed
+
+  }, []);
+
+  var save = function save(event) {
+    event.preventDefault();
+    post.tags = selectedTags;
+
+    if (action === 'create') {
+      axios.post("/post", post).then(function (response) {
+        if (response.status !== 200) {// TODO: some kind of redirection
+        }
+      })["catch"](function (error) {
+        console.error(error);
+        setErrorMessage('Creation of the post failed.');
+      });
+    } else if (action === 'edit') {
+      axios.put("/post/".concat(originalSlug), post).then(function (response) {
+        setInfoMessage("The post (".concat(response.data.title, ") was edited successfully."));
+        history.push("/admin/post/edit/".concat(response.data.slug));
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    }
+  };
+
+  var handleChange = function handleChange(event) {
+    post[event.target.name] = event.target.value;
+    setPost(post);
+  };
+
+  var handleTagChange = function handleTagChange(event) {
+    var options = event.target.options;
+    var value = [];
+
+    for (var i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+
+    setSelectedTags(value);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, errorMessage ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Notification__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    type: 'failure',
+    message: errorMessage
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, pageTitle, " a post: ", post.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    method: action === 'create' ? 'post' : 'put',
+    onSubmit: save
+  }, infoMessage ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Notification__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    type: 'success',
+    message: infoMessage
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_fields_TextInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    name: 'title',
+    label: 'Post title',
+    required: true,
+    help: 'The title of the post',
+    onChangeEvent: handleChange,
+    defaultValue: post.title
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_fields_TextInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    name: 'slug',
+    label: 'URL slug',
+    required: true,
+    help: 'Slug to access the post',
+    onChangeEvent: handleChange,
+    defaultValue: post.slug
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: 'category_id'
+  }, "Category"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    name: 'category_id',
+    id: 'category_id',
+    onChange: handleChange
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ''
+  }, "Please select..."), categories.map(function (category) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: category.id,
+      value: category.id
+    }, category.title);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: 'description'
+  }, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+    name: 'description',
+    id: 'description',
+    onChange: handleChange,
+    defaultValue: post.description,
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'field__help'
+  }, "An introduction to the post - shown on post list pages.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: 'content'
+  }, "Content"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+    name: 'content',
+    id: 'content',
+    onChange: handleChange,
+    defaultValue: post.content,
+    required: true
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: 'tags'
+  }, "Tags"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    name: 'tags',
+    id: 'tags',
+    multiple: true,
+    onChange: handleTagChange
+  }, tags.map(function (tag) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: tag.id,
+      value: tag.id
+    }, tag.name);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: 'button button--success',
+    type: 'submit'
+  }, "Save"))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (PostForm);
 
 /***/ }),
 
