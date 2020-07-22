@@ -2,7 +2,7 @@ import React from 'react';
 
 const TextInput = ((props) => {
     return (
-        <div className={props.required ? 'field field--required' : 'field'}>
+        <div className={props.required ? 'field field--text field--required' : 'field'}>
             <label className={'field__label'} htmlFor={props.name}>
                 {props.label}{props.required ? ' *' : null}
             </label>
