@@ -64,7 +64,7 @@ const TagForm = (() => {
             axios.put(`/tag/${originalSlug}`, tag)
                 .then(response => {
                     setInfoMessage(`The tag (${response.data.name}) was edited successfully.`);
-                    history.push(`/admin/category/edit/${response.data.slug}`);
+                    history.push(`/admin/tag/edit/${response.data.slug}`);
                 })
                 .catch((error) => console.error(error));
         }
