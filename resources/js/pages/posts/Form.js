@@ -97,8 +97,7 @@ const PostForm = (() => {
     };
 
     const handleChange = (event) => {
-        post[event.target.name] = event.target.value;
-        setPost(post);
+        setPost({ ...post, [event.target.name] : [event.target.value] });
     }
 
     const handleTagChange = (event) => {
