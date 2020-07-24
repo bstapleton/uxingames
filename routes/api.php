@@ -25,6 +25,7 @@ Route::prefix('post')->group(function() {
     Route::get('/', 'API\PostController@index');
     Route::get('{post}', 'API\PostController@show');
     Route::post('/', 'API\PostController@store');
+    Route::put('/{postSlug}', 'API\PostController@update');
 });
 
 Route::prefix('tag')->group(function() {

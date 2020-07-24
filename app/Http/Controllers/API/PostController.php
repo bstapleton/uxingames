@@ -49,4 +49,12 @@ class PostController extends BaseController
 
         return response()->json($post, 201);
     }
+
+    public function update(Request $request)
+    {
+        $post = Post::where('id', $request->input('id'))->first();
+        $post->update($request->all());
+
+        return response()->json($post, 200);
+    }
 }

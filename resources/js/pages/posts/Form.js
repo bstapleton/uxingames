@@ -89,6 +89,7 @@ const PostForm = (() => {
         } else if (action === 'edit') {
             axios.put(`/post/${originalSlug}`, post)
                 .then(response => {
+                    console.log(post, response);
                     setInfoMessage(`The post (${response.data.title}) was edited successfully.`);
                     history.push(`/admin/post/edit/${response.data.slug}`);
                 })
