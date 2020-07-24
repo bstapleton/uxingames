@@ -34,18 +34,20 @@ class PostController extends BaseController
         return new PostResource(Post::where('slug', $slug)->first());
     }
 
-    public function store(Request $request)
+    public function store()
     {
-        $validator = $request->validate([
-            'title' => 'required',
-            'slug' => 'required',
-            'category_id' => 'required',
-            'description' => 'required',
-            'content' => 'required',
-            'tags' => 'required',
-        ]);
+        $this->validatePost();
 
-        $post = Post::create($validator)->tags()->attach(request('tags'));
+        $post = new Post(request(['title', 'slug', 'description', 'content']));
+        $post->save();
+
+        if (request()->has('tags')) {
+            $post->tags()->attach(request('tags'));
+        }
+
+        if (request()->has('category')) {
+            $post->category()->attach(request('category'));
+        }
 
         return response()->json($post, 201);
     }
@@ -55,6 +57,22 @@ class PostController extends BaseController
         $post = Post::where('id', $request->input('id'))->first();
         $post->update($request->all());
 
+        if (request()->has('tags')) {
+            $post->tags()->sync(request('tags'));
+        }
+
         return response()->json($post, 200);
+    }
+
+    protected function validatePost()
+    {
+        return request()->validate([
+            'title' => 'required',
+            'slug' => 'required',
+            'category_id' => 'exists:categories,id',
+            'description' => 'required',
+            'content' => 'required',
+            'tags' => 'exists:tags,id',
+        ]);
     }
 }
