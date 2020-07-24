@@ -5499,10 +5499,9 @@ body {
   max-width: 400px; }
 
 .field {
-  position: relative;
   margin: 0 0 20px 0;
   padding: 12px 0 0;
-  max-width: 596px; }
+  max-width: 548px; }
   .field:hover .field__label {
     padding-left: 8px;
     border-left: 4px solid #e7a488; }
@@ -5514,8 +5513,6 @@ body {
     content: "* Error: ";
     font-weight: bold;
     color: #dc3545; }
-  .field.declaration {
-    max-width: 738px; }
   .field.upload .icon {
     top: 56px; }
   .field .warning-message {
@@ -5570,44 +5567,14 @@ body {
     .field .input-group .input-group-prepend,
     .field .login-group .input-group-prepend {
       flex: 0 0 40px; }
-  .field label:not(.field__label) {
-    display: none !important; }
 
-.field.field--currency.error textarea,
-.field.field--currency.error select,
-.field.field--currency.error .field__input, .field.field--email.error textarea,
-.field.field--email.error select,
-.field.field--email.error .field__input, .field.field--number.error textarea,
-.field.field--number.error select,
-.field.field--number.error .field__input, .field.field--password.error textarea,
-.field.field--password.error select,
-.field.field--password.error .field__input, .field.field--select.error textarea,
-.field.field--select.error select,
-.field.field--select.error .field__input, .field.field--text.error textarea,
-.field.field--text.error select,
-.field.field--text.error .field__input, .field.field--textarea.error textarea,
-.field.field--textarea.error select,
-.field.field--textarea.error .field__input,
-.field:hover.field--currency.error textarea,
-.field:hover.field--currency.error select,
+.field.field--currency.error .field__input, .field.field--email.error .field__input, .field.field--number.error .field__input, .field.field--password.error .field__input, .field.field--select.error .field__input, .field.field--text.error .field__input, .field.field--textarea.error .field__input,
 .field:hover.field--currency.error .field__input,
-.field:hover.field--email.error textarea,
-.field:hover.field--email.error select,
 .field:hover.field--email.error .field__input,
-.field:hover.field--number.error textarea,
-.field:hover.field--number.error select,
 .field:hover.field--number.error .field__input,
-.field:hover.field--password.error textarea,
-.field:hover.field--password.error select,
 .field:hover.field--password.error .field__input,
-.field:hover.field--select.error textarea,
-.field:hover.field--select.error select,
 .field:hover.field--select.error .field__input,
-.field:hover.field--text.error textarea,
-.field:hover.field--text.error select,
 .field:hover.field--text.error .field__input,
-.field:hover.field--textarea.error textarea,
-.field:hover.field--textarea.error select,
 .field:hover.field--textarea.error .field__input {
   border-color: #dc3545; }
 
@@ -5616,13 +5583,13 @@ body {
   margin-top: 0; }
 
 .field__input {
-  cursor: text;
   font-size: initial;
   border-radius: 8px;
   padding: 16px 12px;
   outline: 0;
   width: 100%;
   max-width: 500px;
+  margin-right: 16px;
   border: 2px solid #6c757d;
   background-color: #212529;
   color: #f8f9fa; }
@@ -5673,7 +5640,6 @@ body {
 
 .field__help {
   padding-top: 8px;
-  display: block;
   font-style: italic;
   color: #ced4da; }
   .field__help.hidden {
@@ -5682,11 +5648,6 @@ body {
     color: #dee2e6; }
   .field__help.warning {
     color: #ffc107; }
-
-.field__content {
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px; }
 
 .field__prefix {
   flex: 0 0 32px;
@@ -5698,7 +5659,11 @@ body {
       height: 36px; } }
 
 .field__main {
-  flex: 1 1 100%; }
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: flex; }
 
 .field__affix {
   flex: 0 0 32px;
@@ -5710,17 +5675,7 @@ body {
       padding-left: 6px;
       height: 36px; } }
 
-.field__icon,
-.field__icon > svg {
-  width: 24px;
-  height: 24px; }
-  @media (min-width: 768px) {
-    .field__icon,
-    .field__icon > svg {
-      width: 36px;
-      height: 36px; } }
-
-.field .field__help,
+.field__help,
 .field-validation-error,
 .warning-message,
 .valid-feedback {
@@ -5995,24 +5950,8 @@ body {
     margin-top: 1px;
     margin-top: 0; }
 
-.field--select .field__label {
-  cursor: pointer; }
-  .field--select .field__label.disabled, .field--select .field__label.disabled:hover {
-    cursor: not-allowed; }
-  .field--select .field__label:hover {
-    cursor: pointer; }
-
-.field--select .field__main {
-  cursor: pointer; }
-
-.field--select .field__input {
-  width: 0;
-  height: 0;
-  padding: 0;
-  border: none;
-  position: absolute;
-  padding: 0;
-  border: none; }
+.field--select .field__label.disabled, .field--select .field__label.disabled:hover {
+  cursor: not-allowed; }
 
 .field--textarea .field__content {
   align-items: flex-start; }
