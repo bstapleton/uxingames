@@ -8,7 +8,7 @@ const PostForm = (() => {
         id: '',
         title: '',
         slug: '',
-        category_id: '',
+        category: {},
         description: '',
         content: '',
         tags: [],
@@ -39,7 +39,6 @@ const PostForm = (() => {
             .then(response => {
                 response.data.data.sort((a, b) => (a.name > b.name) ? 1 : -1);
                 setTags(response.data.data);
-                console.log(response.data.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -52,6 +51,7 @@ const PostForm = (() => {
                 } else {
                     axios.get(`/post/${slug}`)
                         .then(response => {
+                            console.log(response.data.data);
                             setPost(response.data.data);
                             setOriginalSlug(response.data.data.slug);
                         })
@@ -142,31 +142,49 @@ const PostForm = (() => {
                             help={'Slug to access the post'}
                             onChangeEvent={handleChange}
                             defaultValue={post.slug} />
-                        <div>
-                            <label htmlFor={'category_id'}>Category</label>
-                            <select name={'category_id'} id={'category_id'} onChange={handleChange}>
-                                <option value={''}>Please select...</option>
-                                {categories.map(category => (
-                                    <option key={category.id} value={category.id}>{category.title}</option>
-                                ))}
-                            </select>
+                        <div className={'field field--select'}>
+                            <label className={'field__label'} htmlFor={'category_id'}>Category</label>
+                            <div className={'field__main'}>
+                                <select className={'field__input'} name={'category_id'} id={'category_id'} onChange={handleChange}>
+                                    <option value={''}>Please select...</option>
+                                    {categories.map(category => (
+                                        post.category.id === parseInt(category.id) ?
+                                            <option key={category.id} value={category.id} selected>{category.title}</option>
+                                            :
+                                            <option key={category.id} value={category.id}>{category.title}</option>
+                                    ))}
+                                </select>
+                                <div className={'field__validationIndicator'} />
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor={'description'}>Description</label>
-                            <textarea name={'description'} id={'description'} onChange={handleChange} defaultValue={post.description} required />
+                        <div className={'field field--textarea field--required'}>
+                            <label className={'field__label'} htmlFor={'description'}>Description</label>
+                            <div className={'field__main'}>
+                                <textarea className={'field__input'} name={'description'} id={'description'} onChange={handleChange} defaultValue={post.description} required />
+                                <div className={'field__validationIndicator'} />
+                            </div>
                             <div className={'field__help'}>An introduction to the post - shown on post list pages.</div>
                         </div>
-                        <div>
-                            <label htmlFor={'content'}>Content</label>
-                            <textarea name={'content'} id={'content'} onChange={handleChange} defaultValue={post.content} required />
+                        <div className={'field field--textarea field--required'}>
+                            <label className={'field__label'} htmlFor={'content'}>Content</label>
+                            <div className={'field__main'}>
+                                <textarea className={'field__input'} name={'content'} id={'content'} onChange={handleChange} defaultValue={post.content} required />
+                                <div className={'field__validationIndicator'} />
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor={'tags'}>Tags</label>
-                            <select name={'tags'} id={'tags'} multiple onChange={handleTagChange}>
-                                {tags.map(tag => (
-                                    <option key={tag.id} value={tag.id}>{tag.name}</option>
-                                ))}
-                            </select>
+                        <div className={'field field--required'}>
+                            <label className={'field__label'} htmlFor={'tags'}>Tags</label>
+                            <div className={'field__main'}>
+                                <select className={'field__input'} name={'tags'} id={'tags'} multiple onChange={handleTagChange} defaultValue={post.tags}>
+                                    {tags.map(tag => (
+                                        post.tags.find(x => x.slug === tag.slug) ?
+                                            <option key={tag.id} value={tag.id} selected>{tag.name}</option>
+                                            :
+                                            <option key={tag.id} value={tag.id}>{tag.name}</option>
+                                    ))}
+                                </select>
+                                <div className={'field__validationIndicator'} />
+                            </div>
                         </div>
                         <button className={'button button--success'} type={'submit'}>Save</button>
                     </form>
