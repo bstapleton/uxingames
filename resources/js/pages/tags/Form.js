@@ -71,7 +71,8 @@ const TagForm = (() => {
     };
 
     const handleChange = (event) => {
-        setTag({ ...tag, [event.target.name] : [event.target.value] });
+        tag[event.target.name] = event.target.value;
+        setTag(tag);
     }
 
     return (

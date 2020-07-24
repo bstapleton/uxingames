@@ -73,7 +73,7 @@ const CategoryForm = (() => {
 
     const handleChange = (event) => {
         category[event.target.name] = event.target.value;
-        setCategory({ ...category, [event.target.name] : [event.target.value] });
+        setCategory(category);
     }
 
     return (
