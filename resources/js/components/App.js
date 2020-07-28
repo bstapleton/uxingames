@@ -1,7 +1,8 @@
 import React, {Fragment} from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import axios from 'axios';
+import base32 from 'hi-base32';
 import Main from './Main';
 import CategoryList from '../pages/categories/List';
 import CategoryView from '../pages/categories/View';
@@ -11,8 +12,19 @@ import TagView from '../pages/tags/View';
 import TagForm from '../pages/tags/Form';
 import PostView from "../pages/posts/View";
 import PostForm from "../pages/posts/Form";
+import AuthForm from "../pages/auth/Form";
+import Dashboard from "../pages/admin/Dashboard";
+
+let auth = require('../../../auth.json');
 
 axios.defaults.baseURL = 'http://localhost:8000/api';
+
+function isLoggedIn() {
+    let token = window.localStorage.getItem('ux-token');
+    let user = window.localStorage.getItem('ux-user');
+
+    return !!(auth.users.includes(user) && token === auth.token);
+}
 
 const App = (() => {
     return (
@@ -26,9 +38,35 @@ const App = (() => {
                     <Route exact path={'/tags'} component={TagList} />
                     <Route path={'/tags/:slug'} component={TagView} />
 
-                    <Route path={'/admin/category/:action/:slug?'} component={CategoryForm} />
-                    <Route path={'/admin/tag/:action/:slug?'} component={TagForm} />
-                    <Route path={'/admin/post/:action/:slug?'} component={PostForm} />
+                    <Route path={'/admin/login'} component={AuthForm} />
+                    <Route path={'/admin/dashboard'}>
+                        {isLoggedIn() ?
+                            <Dashboard />
+                            :
+                            <Redirect to={'/'} />
+                        }
+                    </Route>
+                    <Route path={'/admin/category/:action/:slug?'}>
+                        {isLoggedIn() ?
+                            <CategoryForm />
+                            :
+                            <Redirect to={'/'} />
+                        }
+                    </Route>
+                    <Route path={'/admin/tag/:action/:slug?'}>
+                        {isLoggedIn() ?
+                            <TagForm />
+                            :
+                            <Redirect to={'/'} />
+                        }
+                    </Route>
+                    <Route path={'/admin/post/:action/:slug?'}>
+                        {isLoggedIn() ?
+                            <PostForm />
+                            :
+                            <Redirect to={'/'} />
+                        }
+                    </Route>
                 </Switch>
             </Fragment>
         </BrowserRouter>
