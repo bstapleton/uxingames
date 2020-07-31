@@ -15,6 +15,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'title' => $name,
         'slug' => $slug,
         'description' => $faker->text(50),
+        'software_version' => $faker->randomNumber(2),
         'content' => $faker->text,
         'category_id' => random_int(1, 2),
     ];
