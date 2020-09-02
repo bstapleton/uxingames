@@ -44,8 +44,9 @@ And you should be good to go!
 * Delete actions and associated forms
 * CSS
 * Authentication - partially done but needs binding to the database
-* Some form od WYSIWYG editor to replace content textareas
+* Some form of WYSIWYG editor to replace content textareas
 * Some kind of solution for non-post pages
+* Better authentication - probably anyway - since the authenitcator for whatever reason doesn't actually label the entry and I couldn't find a way to edit it on my phone. Very weird.
 
 ### Eventual features
 
