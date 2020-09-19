@@ -1,8 +1,7 @@
-import React, {Fragment} from 'react'
-import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import React, {Fragment} from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import base32 from 'hi-base32';
 import Main from './Main';
 import CategoryList from '../pages/categories/List';
 import CategoryView from '../pages/categories/View';
@@ -22,6 +21,7 @@ axios.defaults.baseURL = 'http://localhost:8000/api';
 function isLoggedIn() {
     let token = window.localStorage.getItem('ux-token');
     let user = window.localStorage.getItem('ux-user');
+    let theme = window.localStorage.getItem('ux-theme');
 
     return !!(auth.users.includes(user) && token === auth.token);
 }

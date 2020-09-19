@@ -1,23 +1,20 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import TextInput from "../../components/fields/TextInput";
 import Notification from "../../components/Notification";
+import { ICategory } from '../../category.model';
+import axios from 'axios';
 
-const CategoryForm = (() => {
-    const [category, setCategory] = useState({
-        id: '',
-        title: '',
-        slug: '',
-        description: ''
-    });
-    const [originalSlug, setOriginalSlug] = useState(null);
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [infoMessage, setInfoMessage] = useState(null);
-    const [pageTitle, setPageTitle] = useState(null);
+const CategoryForm: React.FC = () => {
+    const [category, setCategory] = useState<ICategory>();
+    const [originalSlug, setOriginalSlug] = useState('');
+    const [errorMessage, setErrorMessage] = useState<null | string>(null);
+    const [infoMessage, setInfoMessage] = useState<null | string>(null);
+    const [pageTitle, setPageTitle] = useState('');
     const { action, slug } = useParams();
 
     let history = useHistory();
-    let noCategoryMessage = "That category doesn't exist!";
+    let noCategoryMessage: string = "That category doesn't exist!";
 
     useEffect(() => {
         switch (action) {
@@ -48,7 +45,7 @@ const CategoryForm = (() => {
         // TODO: a redirect if not authed
     }, []);
 
-    const save = (event) => {
+    const save = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (action === 'create') {
             axios.post(`/category`, category)
@@ -71,8 +68,10 @@ const CategoryForm = (() => {
         }
     };
 
-    const handleChange = (event) => {
-        category[event.target.name] = event.target.value;
+    const handleChange = (event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => {
+        const e = event.currentTarget;
+        category![e.name as any] = e.value;
+        console.log(category);
         setCategory(category);
     }
 
@@ -85,7 +84,7 @@ const CategoryForm = (() => {
                 />
             :
                 <Fragment>
-                    <h1>{pageTitle} a category: {category.title}</h1>
+                    <h1>{pageTitle} a category: {category? category.title : 'moose'}</h1>
                     <form method={action === 'create' ? 'post' : 'put'} onSubmit={save}>
                         {infoMessage ?
                             <Notification
@@ -98,22 +97,22 @@ const CategoryForm = (() => {
                             label={'Category name'}
                             required={true}
                             help={'The title of the category'}
-                            onChangeEvent={handleChange}
-                            defaultValue={category.title} />
+                            onChangeEvent={(
+                                event: React.ChangeEvent<HTMLInputElement>
+                            ): void => handleChange(event)} />
                         <TextInput
                             name={'slug'}
                             label={'URL slug'}
                             required={true}
                             help={'Slug to access the category'}
-                            onChangeEvent={handleChange}
-                            defaultValue={category.slug} />
-                        <textarea name={'description'} id={'description'} onChange={handleChange} defaultValue={category.description} required />
+                            onChangeEvent={handleChange} />
+                        <textarea name={'description'} id={'description'} onChange={handleChange} required />
                         <button className={'button button--success'} type={'submit'}>Save</button>
                     </form>
                 </Fragment>
             }
         </Fragment>
     );
-});
+};
 
 export default CategoryForm;
